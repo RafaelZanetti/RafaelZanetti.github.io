@@ -3,274 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rafael Zanetti | Gestão de TI & Consultoria</title>
+    <title>Rafael Zanetti Corrêa | Liderança em TI & Infraestrutura</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #0f172a; /* Azul escuro/Slate */
-            --accent-color: #2563eb; /* Azul vibrante */
-            --text-main: #333333;
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #2563eb;
+            --text-main: #334155;
             --text-light: #64748b;
             --bg-light: #f8fafc;
             --white: #ffffff;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, sans-serif; }
 
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
+        body { background-color: var(--bg-light); color: var(--text-main); line-height: 1.6; }
 
-        /* Header / Hero Section */
-        .hero {
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 80px 20px;
-            text-align: center;
-        }
+        /* Hero Section */
+        .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: var(--white); padding: 100px 20px 80px; text-align: center; }
+        
+        .profile-wrapper { position: relative; width: 180px; height: 180px; margin: 0 auto 25px; }
+        .profile-img { width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--accent); object-fit: cover; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        
+        .hero h1 { font-size: 2.8rem; margin-bottom: 10px; font-weight: 700; }
+        .hero h2 { font-size: 1.2rem; color: #94a3b8; font-weight: 400; margin-bottom: 20px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        
+        .badges { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 30px; }
+        .badge { background-color: rgba(255,255,255,0.1); padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.2); }
 
-        .profile-img-container {
-            width: 180px;
-            height: 180px;
-            margin: 0 auto 20px;
-            border-radius: 50%;
-            border: 4px solid var(--accent-color);
-            overflow: hidden;
-            background-color: #cbd5e1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .btn { display: inline-block; background-color: var(--accent); color: var(--white); padding: 14px 35px; text-decoration: none; border-radius: 6px; font-weight: 600; transition: background 0.3s; }
+        .btn:hover { background-color: #1d4ed8; }
 
-        .profile-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        /* Containers */
+        .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px; }
+        .bg-white { background-color: var(--white); }
 
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
+        .section-title { text-align: center; font-size: 2.2rem; margin-bottom: 50px; color: var(--primary); }
+        .section-title::after { content: ''; display: block; width: 60px; height: 4px; background-color: var(--accent); margin: 15px auto 0; border-radius: 2px; }
 
-        .hero h2 {
-            font-size: 1.2rem;
-            font-weight: 400;
-            color: #94a3b8;
-            margin-bottom: 30px;
-        }
+        /* Sobre */
+        .about-text { font-size: 1.15rem; color: var(--text-main); text-align: justify; max-width: 900px; margin: 0 auto 30px; }
+        .about-quote { text-align: center; font-size: 1.3rem; font-style: italic; color: var(--accent); font-weight: 600; margin-top: 30px; }
 
-        .btn {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: var(--white);
-            padding: 12px 30px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
+        /* Grid de Competências */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .skill-card { background: var(--white); padding: 35px 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; border-bottom: 4px solid transparent; transition: all 0.3s; }
+        .skill-card:hover { transform: translateY(-5px); border-bottom-color: var(--accent); }
+        .skill-icon { font-size: 2.5rem; color: var(--accent); margin-bottom: 20px; }
+        .skill-card h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.3rem; }
+        .skill-list { list-style: none; text-align: left; }
+        .skill-list li { margin-bottom: 10px; padding-left: 20px; position: relative; font-size: 0.95rem; }
+        .skill-list li::before { content: '✓'; color: var(--accent); position: absolute; left: 0; font-weight: bold; }
 
-        .btn:hover {
-            background-color: #1d4ed8;
-        }
-
-        /* Container Padrão */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
-        /* Sobre Mim */
-        .section-title {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 40px;
-            color: var(--primary-color);
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background-color: var(--accent-color);
-            margin: 10px auto 0;
-            border-radius: 2px;
-        }
-
-        .about-text {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-            color: var(--text-light);
-        }
-
-        /* Skills Grid */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .skill-card {
-            background-color: var(--white);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .skill-icon {
-            font-size: 2.5rem;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-        }
-
-        .skill-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-        }
-
-        .skill-list {
-            list-style: none;
-            color: var(--text-light);
-        }
-
-        .skill-list li {
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-
-        /* Contato */
-        .contact {
-            background-color: var(--white);
-            text-align: center;
-        }
-
-        .contact p {
-            margin-bottom: 20px;
-            color: var(--text-light);
-        }
-
+        /* Trajetória Resumida */
+        .timeline-item { background: var(--bg-light); border-left: 4px solid var(--accent); padding: 20px 30px; margin-bottom: 20px; border-radius: 0 8px 8px 0; }
+        .timeline-item h4 { color: var(--primary); font-size: 1.2rem; margin-bottom: 5px; }
+        .timeline-item span { color: var(--accent); font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 10px; }
+        
         /* Footer */
-        footer {
-            background-color: var(--primary-color);
-            color: var(--white);
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9rem;
-        }
+        footer { background-color: var(--primary); color: #94a3b8; text-align: center; padding: 30px; font-size: 0.9rem; }
     </style>
-    <!-- Adicionando FontAwesome para os ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Hero Section -->
     <section class="hero">
-        <div class="profile-img-container">
-            <!-- SUBSTITUA O LINK ABAIXO PELO CAMINHO DA SUA FOTO -->
-            <img src="sua-foto-aqui.jpg" alt="Foto de Rafael Zanetti">
+        <div class="profile-wrapper">
+            <img src="perfil.jpg" alt="Rafael Zanetti Corrêa" class="profile-img">
         </div>
-        <h1>Rafael Zanetti</h1>
-        <h2>Supervisor de TI & Consultoria em Infraestrutura</h2>
-        <a href="#contato" class="btn">Entrar em Contato</a>
+        <h1>Rafael Zanetti Corrêa</h1>
+        <h2>Liderança Técnica + Pensamento Estratégico. Especialista em Governança, Infraestrutura de Alta Disponibilidade e Transformação Digital.</h2>
+        
+        <div class="badges">
+            <span class="badge"><i class="fa-solid fa-briefcase"></i> +15 Anos de Experiência</span>
+            <span class="badge"><i class="fa-solid fa-shield-halved"></i> ITIL & LGPD</span>
+            <span class="badge"><i class="fa-solid fa-server"></i> ERP IFS & Cloud</span>
+        </div>
+
+        <a href="#contato" class="btn">Solicitar Consultoria</a>
     </section>
 
-    <!-- Sobre Section -->
-    <section class="container" id="sobre">
-        <h2 class="section-title">Sobre Mim</h2>
+    <section class="container bg-white" id="sobre">
+        <h2 class="section-title">Sobre Minha Atuação</h2>
         <p class="about-text">
-            Profissional de Tecnologia da Informação com forte perfil analítico e executor, focado na entrega de soluções robustas para ambientes corporativos e industriais. Com vasta experiência em operações multinacionais, atuo na arquitetura e sustentação de sistemas, garantindo alta disponibilidade, segurança e otimização de processos através da tecnologia.
+            Com mais de 15 anos de trajetória sólida em empresas nacionais e multinacionais, evoluí do suporte técnico de alto nível para a liderança de projetos estratégicos. Meu foco central é garantir a eficiência, conformidade e inovação tecnológica das operações.
+        </p>
+        <p class="about-text">
+            Possuo ampla vivência na implantação de soluções complexas de infraestrutura, assegurando alta disponibilidade e segurança da informação. Atuo ativamente em jornadas de transformação digital, modernizando processos e integrando áreas de negócio através da adoção de tecnologias emergentes, Cloud Computing e governança alinhada à ITIL e LGPD.
+        </p>
+        <p class="about-quote">
+            "Minha marca profissional é unir liderança técnica e pensamento estratégico, sempre buscando inovação e eficiência operacional."
         </p>
     </section>
 
-    <!-- Skills Section -->
-    <section class="container" style="background-color: var(--bg-light);" id="expertise">
-        <h2 class="section-title">Minha Expertise</h2>
+    <section class="container" id="expertise">
+        <h2 class="section-title">Pilares de Competência</h2>
         <div class="skills-grid">
             
-            <!-- Card 1 -->
+            <div class="skill-card">
+                <i class="fa-solid fa-sitemap skill-icon"></i>
+                <h3>Governança & Gestão</h3>
+                <ul class="skill-list">
+                    <li>Gestão de TI & Liderança de Equipes</li>
+                    <li>Governança alinhada a ITIL</li>
+                    <li>Conformidade e Mitigação (LGPD)</li>
+                    <li>Scrum Framework & Projetos</li>
+                </ul>
+            </div>
+
             <div class="skill-card">
                 <i class="fa-solid fa-network-wired skill-icon"></i>
-                <h3>Infra & Redes</h3>
+                <h3>Infra & Segurança</h3>
                 <ul class="skill-list">
-                    <li>MikroTik & Fortinet</li>
-                    <li>Roteamento Avançado</li>
-                    <li>Firewall & Segurança</li>
-                    <li>Topologias Corporativas</li>
+                    <li>Firewalls (Fortinet, MikroTik)</li>
+                    <li>Virtualização (Proxmox, VMware)</li>
+                    <li>Cloud (OCI, Servidores Linux/Windows)</li>
+                    <li>Cibersegurança e Redes LAN/WAN</li>
                 </ul>
             </div>
 
-            <!-- Card 2 -->
-            <div class="skill-card">
-                <i class="fa-solid fa-server skill-icon"></i>
-                <h3>Virtualização</h3>
-                <ul class="skill-list">
-                    <li>Proxmox VE</li>
-                    <li>VMware</li>
-                    <li>Gestão de Servidores</li>
-                    <li>Alta Disponibilidade (HA)</li>
-                </ul>
-            </div>
-
-            <!-- Card 3 -->
             <div class="skill-card">
                 <i class="fa-solid fa-database skill-icon"></i>
-                <h3>Sistemas & Banco de Dados</h3>
+                <h3>Sistemas Corporativos</h3>
                 <ul class="skill-list">
                     <li>ERP IFS Applications</li>
-                    <li>Oracle DB</li>
-                    <li>PostgreSQL & SQL Server</li>
-                    <li>Análise de Dados</li>
+                    <li>Bancos Relacionais (Oracle, SQL, PostgreSQL)</li>
+                    <li>Bancos NoSQL (MongoDB)</li>
+                    <li>Integração entre áreas de negócio</li>
                 </ul>
             </div>
 
-            <!-- Card 4 -->
             <div class="skill-card">
                 <i class="fa-solid fa-code skill-icon"></i>
-                <h3>Automação</h3>
+                <h3>Desenvolvimento & Automação</h3>
                 <ul class="skill-list">
-                    <li>Scripts em Python</li>
-                    <li>Automação de Processos</li>
-                    <li>Integração de Sistemas</li>
-                    <li>Gestão com Obsidian</li>
+                    <li>Linguagens (Delphi, Python, PHP, JS)</li>
+                    <li>Ecossistema (Node.js, React)</li>
+                    <li>Scripts de Automação & Integrações</li>
+                    <li>Extração e Análise de Dados (BI)</li>
                 </ul>
             </div>
 
         </div>
     </section>
 
-    <!-- Contato Section -->
-    <section class="container contact" id="contato">
-        <h2 class="section-title">Área de Atuação e Contato</h2>
-        <p>Ofereço consultoria especializada em TI para empresas localizadas em <strong>Cerquilho, Tietê, Boituva, Porto Feliz e Laranjal Paulista</strong>.</p>
-        <p>Pronto para elevar a infraestrutura de tecnologia do seu negócio?</p>
-        <br>
-        <a href="mailto:seu-email@exemplo.com" class="btn"><i class="fa-solid fa-envelope"></i> Enviar um E-mail</a>
+    <section class="container bg-white" id="experiencia">
+        <h2 class="section-title">Trajetória e Formação</h2>
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="timeline-item">
+                <h4>Supervisor de TI</h4>
+                <span>Dual Borgstena Brazil | Presente</span>
+                <p>Gestão de novos projetos de tecnologia, governança, segurança da informação, sustentação de infraestrutura e gestão do ERP (IFS).</p>
+            </div>
+            <div class="timeline-item">
+                <h4>Gestão de TI / Consultoria</h4>
+                <span>Settha Segurança e Saúde no Trabalho</span>
+                <p>Consultoria estratégica para tomada de decisão, reestruturação de redes e hardware corporativo.</p>
+            </div>
+            <div class="timeline-item">
+                <h4>Analista de TI Sênior</h4>
+                <span>Maxibyte (11 anos)</span>
+                <p>Análise e planejamento estratégico para implantação de sistemas ERP e infraestrutura de clientes.</p>
+            </div>
+            
+            <h3 style="margin: 40px 0 20px; color: var(--primary); text-align: center;">Formação Acadêmica</h3>
+            <p style="text-align: center; color: var(--text-light);">
+                <strong>Engenharia de Computação</strong> (Pós-graduação, UNINTER) <br>
+                <strong>Segurança da Informação</strong> (Pós-graduação, Faculdade Iguaçu) <br>
+                <strong>Arquitetura e Gestão de Infraestrutura em TI</strong> (Pós-graduação, Faculdade Iguaçu) <br>
+                <strong>Gestão da Tecnologia da Informação</strong> (Bacharelado, Wyden)
+            </p>
+        </div>
     </section>
 
-    <!-- Footer -->
+    <section class="container" id="contato" style="text-align: center;">
+        <h2 class="section-title">Vamos conversar?</h2>
+        <p style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Disponível para consultoria especializada, auditoria de infraestrutura e projetos de transformação digital na região de <strong>Cerquilho, Tietê, Boituva, Porto Feliz e Laranjal Paulista</strong>.
+        </p>
+        <a href="mailto:seu-email@exemplo.com" class="btn"><i class="fa-solid fa-envelope"></i> Entrar em Contato</a>
+    </section>
+
     <footer>
-        <p>&copy; 2026 Rafael Zanetti. Todos os direitos reservados.</p>
+        <p>&copy; 2026 Rafael Zanetti Corrêa. Todos os direitos reservados.</p>
     </footer>
 
 </body>
