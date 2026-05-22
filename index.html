@@ -1,384 +1,277 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Apontamento de Produção</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-body { font-family: Arial, sans-serif; background: #f0f0f0; margin:0; padding:20px; display: flex; justify-content: center; }
-#loginDiv { display:flex; justify-content:center; align-items:center; height:100vh; }
-.container { max-width: 100%; width: 95%; background: #fff; padding: 20px; border-radius: 8px; box-sizing: border-box; overflow-x:auto; margin-top:20px; }
-h2 { text-align: center; margin-bottom: 20px; }
-.field-group { display: flex; align-items: center; gap: 5px; margin-top: 5px; }
-.field-group label { width: 80px; margin-top:0; text-align: left; }
-input, select, button { padding: 6px; box-sizing: border-box; font-size: 14px; }
-button { background-color: #1976d2; color: white; border: none; cursor: pointer; }
-button:hover { background-color: #145ea8; }
-.operacoes-list { border: 1px solid #ccc; padding: 5px; max-height: 180px; overflow-y: auto; width:100%; }
-.operacoes-list div { padding: 3px; cursor: pointer; text-align:left; }
-.operacoes-list div.selected { background-color: #c8daf7; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rafael Zanetti | Gestão de TI & Consultoria</title>
+    <style>
+        :root {
+            --primary-color: #0f172a; /* Azul escuro/Slate */
+            --accent-color: #2563eb; /* Azul vibrante */
+            --text-main: #333333;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+        }
 
-#formChartWrapper { display: flex; align-items: flex-start; gap: 30px; flex-wrap: wrap; margin-bottom: 30px; }
-#formLeft { flex:1; min-width:300px; display:flex; flex-direction: column; gap:5px; }
-#imagesWrapper { display: flex; gap: 10px; margin-top: 5px; align-items: flex-start; }
-.image-box { text-align: center; display:flex; flex-direction: column; align-items:center; }
-.image-box label { font-weight:bold; margin-bottom:5px; background:#1976d2; color:#fff; padding:2px 5px; border-radius: 3px; }
-.image-box img { width: 150px; height: 120px; border:1px solid #000; object-fit: contain; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
 
-#chartContainer { width:500px; height:400px; flex-shrink:0; display:flex; flex-direction:column; min-height: 350px; }
-#tempoOperacoesWrapper, #eficienciaMediaWrapper { margin-top:10px; }
-#tempoOperacoesWrapper label, #eficienciaMediaWrapper label { font-weight:bold; margin-bottom:5px; display:block; }
-#tempoOperacoes, #eficienciaMedia { width:100%; padding:6px; box-sizing:border-box; }
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
 
-#dashboard { margin-top: 30px; width: 100%; overflow-x:auto; }
-table { width: 100%; border-collapse: collapse; table-layout: auto; word-wrap: break-word; }
-th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-table td:nth-child(7), table th:nth-child(7) { max-width: 200px; word-wrap: break-word; white-space: normal; }
-.pagination { margin-top: 10px; text-align: right; white-space: nowrap; }
-.pagination button { display: inline-block; margin: 0 2px; padding: 4px 8px; border: 1px solid #ccc; background-color: #fff; color: #333; cursor: pointer; border-radius: 4px; font-size: 14px; }
-.pagination button:hover { background-color: #f0f0f0; }
-.pagination button.active { background-color: #1976d2; color: #fff; border-color: #1976d2; }
-.pagination span { display: inline-block; margin: 0 4px; }
-</style>
+        /* Header / Hero Section */
+        .hero {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .profile-img-container {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-color);
+            overflow: hidden;
+            background-color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .hero h2 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--white);
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Container Padrão */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Sobre Mim */
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--primary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .about-text {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .skill-card {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .skill-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .skill-list {
+            list-style: none;
+            color: var(--text-light);
+        }
+
+        .skill-list li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        /* Contato */
+        .contact {
+            background-color: var(--white);
+            text-align: center;
+        }
+
+        .contact p {
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+    </style>
+    <!-- Adicionando FontAwesome para os ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<div class="container" id="loginDiv">
-  <div style="width:300px;text-align:center;">
-    <h2>Login</h2>
-    <label>Usuário:</label>
-    <input type="text" id="username" style="width:100%;">
-    <label>Senha:</label>
-    <input type="password" id="password" style="width:100%;">
-    <button onclick="login()" style="width:100%; margin-top:10px;">Entrar</button>
-    <p id="loginMsg" style="color:red;"></p>
-  </div>
-</div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="profile-img-container">
+            <!-- SUBSTITUA O LINK ABAIXO PELO CAMINHO DA SUA FOTO -->
+            <img src="sua-foto-aqui.jpg" alt="Foto de Rafael Zanetti">
+        </div>
+        <h1>Rafael Zanetti</h1>
+        <h2>Supervisor de TI & Consultoria em Infraestrutura</h2>
+        <a href="#contato" class="btn">Entrar em Contato</a>
+    </section>
 
-<div class="container" id="appDiv" style="display:none;">
-<h2>Apontamento de Produção</h2>
+    <!-- Sobre Section -->
+    <section class="container" id="sobre">
+        <h2 class="section-title">Sobre Mim</h2>
+        <p class="about-text">
+            Profissional de Tecnologia da Informação com forte perfil analítico e executor, focado na entrega de soluções robustas para ambientes corporativos e industriais. Com vasta experiência em operações multinacionais, atuo na arquitetura e sustentação de sistemas, garantindo alta disponibilidade, segurança e otimização de processos através da tecnologia.
+        </p>
+    </section>
 
-<div id="formChartWrapper">
-  <div id="formLeft">
-    <div class="field-group"><label>Linha:</label><select id="linha"><option value="Linha 1">Linha 1</option><option value="Linha 2">Linha 2</option><option value="Linha 3">Linha 3</option></select></div>
-    <div class="field-group"><label>Carro:</label><select id="carro" onchange="atualizarModelos(); atualizarImagens();"></select></div>
-    <div class="field-group"><label>Modelo:</label><select id="modelo" onchange="atualizarOperacoes(); atualizarImagens();"></select></div>
-    <div class="field-group"><label>Capa:</label><select id="capa" onchange="atualizarOperacoes(); atualizarImagens();"><option value="FB">FB</option><option value="FC">FC</option><option value="RB">RB</option><option value="RC">RC</option></select></div>
+    <!-- Skills Section -->
+    <section class="container" style="background-color: var(--bg-light);" id="expertise">
+        <h2 class="section-title">Minha Expertise</h2>
+        <div class="skills-grid">
+            
+            <!-- Card 1 -->
+            <div class="skill-card">
+                <i class="fa-solid fa-network-wired skill-icon"></i>
+                <h3>Infra & Redes</h3>
+                <ul class="skill-list">
+                    <li>MikroTik & Fortinet</li>
+                    <li>Roteamento Avançado</li>
+                    <li>Firewall & Segurança</li>
+                    <li>Topologias Corporativas</li>
+                </ul>
+            </div>
 
-    <div id="imagesWrapper">
-      <div class="image-box">
-        <label>Carro</label>
-        <img id="imgCarro" src="" alt="Carro">
-      </div>
-      <div class="image-box">
-        <label>Capa</label>
-        <img id="imgCapa" src="" alt="Capa">
-      </div>
-    </div>
+            <!-- Card 2 -->
+            <div class="skill-card">
+                <i class="fa-solid fa-server skill-icon"></i>
+                <h3>Virtualização</h3>
+                <ul class="skill-list">
+                    <li>Proxmox VE</li>
+                    <li>VMware</li>
+                    <li>Gestão de Servidores</li>
+                    <li>Alta Disponibilidade (HA)</li>
+                </ul>
+            </div>
 
-    <label>Operações:</label>
-    <div class="operacoes-list" id="operacoes"></div>
-    <button onclick="registrarPeca()" style="margin-top:10px; align-self:flex-start;">Registrar Peça</button>
-  </div>
+            <!-- Card 3 -->
+            <div class="skill-card">
+                <i class="fa-solid fa-database skill-icon"></i>
+                <h3>Sistemas & Banco de Dados</h3>
+                <ul class="skill-list">
+                    <li>ERP IFS Applications</li>
+                    <li>Oracle DB</li>
+                    <li>PostgreSQL & SQL Server</li>
+                    <li>Análise de Dados</li>
+                </ul>
+            </div>
 
-  <div id="chartContainer">
-    <canvas id="eficienciaChart"></canvas>
-    <div id="tempoOperacoesWrapper">
-      <label>Tempo Operações</label>
-      <input type="text" id="tempoOperacoes" readonly value="0">
-    </div>
-    <div id="eficienciaMediaWrapper">
-      <label>Eficiência Média (últimos 60)</label>
-      <input type="text" id="eficienciaMedia" readonly value="0">
-    </div>
-  </div>
-</div>
+            <!-- Card 4 -->
+            <div class="skill-card">
+                <i class="fa-solid fa-code skill-icon"></i>
+                <h3>Automação</h3>
+                <ul class="skill-list">
+                    <li>Scripts em Python</li>
+                    <li>Automação de Processos</li>
+                    <li>Integração de Sistemas</li>
+                    <li>Gestão com Obsidian</li>
+                </ul>
+            </div>
 
-<div style="margin-bottom:10px;">
-  <button onclick="limparRegistros()" style="background-color:#1976d2;">Limpar Registros</button>
-</div>
+        </div>
+    </section>
 
-<div id="dashboard">
-<h3>Peças Registradas</h3>
-<table id="tabela">
-<tr><th>Hora</th><th>Usuário</th><th>Linha</th><th>Carro</th><th>Modelo</th><th>Capa</th><th>Operações</th><th>Meta (s)</th><th>Tempo Real (s)</th><th>Eficiência (%)</th></tr>
-</table>
-<div class="pagination" id="pagination"></div>
-</div>
+    <!-- Contato Section -->
+    <section class="container contact" id="contato">
+        <h2 class="section-title">Área de Atuação e Contato</h2>
+        <p>Ofereço consultoria especializada em TI para empresas localizadas em <strong>Cerquilho, Tietê, Boituva, Porto Feliz e Laranjal Paulista</strong>.</p>
+        <p>Pronto para elevar a infraestrutura de tecnologia do seu negócio?</p>
+        <br>
+        <a href="mailto:seu-email@exemplo.com" class="btn"><i class="fa-solid fa-envelope"></i> Enviar um E-mail</a>
+    </section>
 
-<script>
-// Usuários
-const users=[{username:"joao",password:"123"},{username:"maria",password:"123"}];
-let currentUser=null,lastTime=null,currentPage=1,operacoesSelecionadas=[];
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Rafael Zanetti. Todos os direitos reservados.</p>
+    </footer>
 
-// Modelos por carro
-const modelosPorCarro={
-  "BR2-PE":["NASSOR BLACK","NASSOR GRAY","LEATHER BLACK","LEATHER GRAY"],
-  "SU2B-PE":["WOVEN L","WOVEN GL BLACK","WOVEN GL TECIDO","COURO CINZA","COURO MARROM","N LINE"]
-};
-
-// Operações tabela
-const operacoesTabela=[
- {carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.01",processo:"COSTURA DO SALMON NYLON NO PEIXE.",tempo:24},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.02",processo:"COSTURA DO SALMON NYLON NA LATERAL DO PEIXE.",tempo:32},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.03",processo:"UNIÃO DOS PEIXES.",tempo:35},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.04",processo:"PESPONTO DO PEIXE.",tempo:56},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.05",processo:"UNIÃO DO PEIXE NO INSERT+BIDIM.",tempo:42},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.06",processo:"COSTURA DO BIDIM NA BARRINHA DO YON.",tempo:22},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.07",processo:"COSTURA DO CONJUNTO DE INSERT NA BARRINHA DE PETRA.",tempo:27},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.09",processo:"COSTURA DA ORELHA DE PETRA NO CONJUNTO DO INSERT INFERIOR.",tempo:36},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.11",processo:"COSTURA DO PETRA INFERIOR NA BALEIA TRASEIRA.",tempo:26},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.13",processo:"COSTURA DO ZIPER NO PEIXE.",tempo:44},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.14",processo:"COSTURA DA VOLTA SUPERIOR FRONTAL COM CHAPEU.",tempo:38},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.15",processo:"PESPONTO NA VOLTA SUPERIOR FRONTAL.",tempo:56},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.16",processo:"COSTURA DA VOLTA SUPERIOR TRASEIRA NA BALEIA.",tempo:18},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.17",processo:"COSTURA DO BIDIM NO INSERT CENTRAL.",tempo:22},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.18",processo:"COSTURA DO INSERT CENTRAL NA PARTE SUPERIOR.",tempo:34},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.20",processo:"COSTURA DO PLÁSTICO NO SALMON NYLON (SUB-LINHA).",tempo:30},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.21",processo:"COSTURA DO SALMON NYLON NA BALEIA TRASEIRA.",tempo:22},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.22",processo:"COSTURA DO INSERT CENTRAL NO INSERT SUPERIOR",tempo:50},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.23",processo:"COSTURA DO POCKET TIE DOWN NA JUNÇÃO DOS INSERTS",tempo:32},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.24",processo:"COSTURA DO VELCRO NA VOLTINHA LATERAL.",tempo:29},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.25",processo:"UNIÃO DO PAINEL TRASEIRO NA VOLTA SUPERIOR.",tempo:46},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.26",processo:"UNIÃO DO PAINEL COM BALEIA+VOLTA SUPERIOR.",tempo:56},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.27",processo:"COSTURA DO CARPETE COM O CONJUNTO TRASEIRO+ETIQUETA",tempo:30},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.28",processo:"FECHAMENTO 50% DO AIR-BAG + ETIQUETA SAB",tempo:57},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.29",processo:"FECHAMENTO 50% DA CAPA",tempo:57},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.30",processo:"PESPONTO DO FECHAMENTO 100%.",tempo:81},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.31",processo:"COSTURA DO CONJUNTO DO CARPETE INFERIOR (SUB-LINHA).",tempo:45},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.32",processo:"COSTURA DO PERFIL PLÁSTICO NO ELÁSTICO (SUB-LINHA).",tempo:11},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FB",codigo:"30.34",processo:"COSTURA DA ESPUMA BRANCA NO PAINEL TRASEIRO",tempo:30},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.02",processo:"JUNÇÃO DOS INSERTS",tempo:40},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.03",processo:"COSTURA DO AUTOLOOP NO INSERT",tempo:46},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.04",processo:"COSTURA DA SAIA+BIDIM NO INSERT",tempo:23},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.05",processo:"COSTURA DO PEIXE +BIDIM NO INSERT",tempo:52},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.08",processo:"COSTURA DA LATERAL NA VOLTA",tempo:32},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.09",processo:"PESPONTO SIMPLES DAS BALEIAS",tempo:20},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.10",processo:"UNIÃO DAS VOLTAS",tempo:14},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.11",processo:"UNIÃO DAS VOLTAS NO INSERT",tempo:59},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.12",processo:"PESPONTO SIMPLES NAS VOLTAS DO INSERT",tempo:84},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.16",processo:"COSTURA DO PETRA INFERIOR+ETIQUETA NO CONJUNTO DA CAPA",tempo:27},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.17",processo:"COSTURA DO TELEFONE NA BARRINHA DE PETRA",tempo:38},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.19",processo:"COSTURA DO PETRA INFERIOR NO CONJUNTO DA CAPA",tempo:30},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.20",processo:"COSTURA DO PERFIL BRANCO NO PETRA INFERIOR",tempo:22},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.21",processo:"COSTURA DO PLÁSTICO INFERIOR E LATERAIS",tempo:36},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"FC",codigo:"30.25",processo:"COSTURA DA UNIÃO DAS BOTINHAS",tempo:9},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.02",processo:"COSTURA DO PEIXE RH+BIDIM NO INSERT INFERIOR.",tempo:24},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.03",processo:"COSTURA DO PEIXE LH+BIDIM NO INSERT INFERIOR.",tempo:24},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.04",processo:"UNIÃO DO INSERT INFERIOR COM INSERT SUPERIOR",tempo:40},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.05",processo:"COSTURA DO POCKET TIE DOWN NA UNIÃO DOS INSERTS",tempo:47},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.06",processo:"COSTURA DO VELCRO NO INSERT SUPERIOR",tempo:32},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.07",processo:"UNIÃO DA VOLTA SUPERIOR COM A VOLTA INFERIOR",tempo:40},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.08",processo:"PESPONTO NA UNIÃO DAS VOLTAS SUPERIORES.",tempo:56},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.09",processo:"COSTURA DO “VIES”. (Somente tecido)",tempo:18},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.10",processo:"COSTURA DA PEÇA DO “VIÉS” NA VOLTAS SUPERIORES",tempo:27},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.11",processo:"PESPONTO NA PEÇA DO “VIÉS”.",tempo:39},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.12",processo:"UNIÃO DAS VOLTAS SUPERIORES COM O CONJUNTO DO INSERT.",tempo:50},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.13",processo:"COSTURA DO PERFIL PLÁSTICO+CARPETE INFERIOR NO CARPETE SUPERIOR.",tempo:34},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.14",processo:"COSTURA DOS CARPETINHOS NO CONJUNTO DE CARPETE INFERIOR..",tempo:20},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.15",processo:"COSTURA DO CARPETE NO CONJUNTO DO INSERT+ETIQUETA",tempo:40},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.16",processo:"UNIÃO DOS PETRAS LATERAIS RH.",tempo:16},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.17",processo:"COSTURA DOS PETRAS RH NO CONJUNTO DO INSERT.",tempo:22},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.19",processo:"COSTURA DO ZIPPER RH NA LATERAL DO CONJUNTO INSERT.",tempo:32},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.20",processo:"COSTURA DO ZIPPER NO PETRA LATERAL LH.",tempo:26},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.21",processo:"COSTURA DO PETRA+ZIPPER RH NO CONJUNTO DO INSERT.",tempo:34},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.24",processo:"COSTURA DO PERFIL PLASTICO NO CARPETE 60% - 40%",tempo:27},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.25",processo:"UNIÃO DO CONJUNTO DO CARPETE 60% NO CONJUNTO DOS INSERTS",tempo:99},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.27",processo:"COSTURA DO PP PLATE 60% NA VOLTA SUPERIOR.",tempo:10},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RB",codigo:"30.28",processo:"UNIÃO DO MEIO 60% NO CONJUNTO DO INSERT",tempo:26},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.01",processo:"COSTURA DOS PLÁSTICOS AO REDOR DA CAPA",tempo:29},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.02",processo:"UNIÃO DO INSERT INFERIOR COM INSERT SUPERIOR",tempo:40},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.03",processo:"COSTURA DO VELCRO NA JUNÇÃO DOS INSERTS",tempo:45},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.04",processo:"UNIÃO DA BARRINHA DO INSERT+BIDIM NO CONJUNTO DOS INSERTS",tempo:23},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.05",processo:"COSTURA DO PEIXE LATERAL RH NA PEÇA INFERIOR DO PEIXE",tempo:17},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.06",processo:"COSTURA DO PEIXE LATERAL LH NA PEÇA INFERIOR DO PEIXE",tempo:14},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.07",processo:"UNIÃO DO PEIXE+BIDIM LH NO INSERT RH",tempo:36},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.08",processo:"COSTURA DA VOLTA SUPERIOR DO INSERT RH",tempo:33},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.09",processo:"COSTURA DA VOLTA NO PEIXE RH",tempo:29},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.10",processo:"PESPONTO NA VOLTA DO PEIXE RH",tempo:56},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.11",processo:"COSTURA DA BARRINHA LATERAL NO PEIXE+VOLTA",tempo:24},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.13",processo:"UNIÃO DO PEIXE+VOLTA LATERAL NO INSERT RH",tempo:35},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.14",processo:"COSTURA DO PETRA INFERIOR NO PEIXE LATERAL",tempo:27},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.15",processo:"COSTURA DO MEIO COM PEÇA SUPERIOR",tempo:20},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.19",processo:"COSTURA DO CARPETE NA BARRINHA INFERIOR DA FANTASIA RH",tempo:16},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.20",processo:"JUNÇÃO DOS PETRA INFERIORES RH",tempo:9},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.22",processo:"COSTURA DO BOLSINHO RH",tempo:9},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.23",processo:"COSTURA DO CARPETE NA BARRINHA INFERIOR DA FANTASIA LH",tempo:11},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.24",processo:"JUNÇÃO DOS PETRA INFERIORES LH",tempo:10},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.26",processo:"COSTURA DO BOLSINHO LH",tempo:9},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.27",processo:"UNIÃO DO CONJUNTO RH NO CONJUNTO DO MEIO",tempo:28},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.28",processo:"COSTURA DO CONJUNTO LH NO CONJUNTO DO MEIO + ETIQUETA",tempo:29},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.29",processo:"COSTURA DO PETRA INFERIOR CENTRAL RH",tempo:20},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.30",processo:"COSTURA DO PETRA INFERIOR CENTRAL LH",tempo:20},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.32",processo:"UNIÃO DA BARRINHA RH DO INSERT NO CONJUNTO DOS INSERTS",tempo:18},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.33",processo:"UNIÃO DA BARRINHA LH DO INSERT NO CONJUNTO DOS INSERTS",tempo:18},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.34",processo:"UNIÃO DO CHICOTE",tempo:9},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.35",processo:"COSTURA DO PLÁSTICO NO CHICOTE",tempo:36},
-{carro:"SU2B-PE",modelo:"WOVEN GL TECIDO",capa:"RC",codigo:"30.36",processo:"COSTURA DO CHICOTE NO CONJUNTO DA CAPA",tempo:51},
-
-
-
-
-  // ... Adicione todas as operações da tabela conforme necessário
-];
-
-// Login
-function login(){
-  const username=document.getElementById('username').value;
-  const password=document.getElementById('password').value;
-  const user=users.find(u=>u.username===username && u.password===password);
-  if(user){
-    currentUser=user.username;
-    document.getElementById('loginDiv').style.display='none';
-    document.getElementById('appDiv').style.display='block';
-    preencherCarros();
-  } else {
-    document.getElementById('loginMsg').innerText="Usuário ou senha incorretos.";
-  }
-}
-
-// Preencher select de carros
-function preencherCarros(){
-  const carroSelect=document.getElementById('carro');
-  carroSelect.innerHTML='';
-  Object.keys(modelosPorCarro).forEach(c=>{
-    let opt=document.createElement('option'); opt.value=c; opt.text=c; carroSelect.add(opt);
-  });
-  atualizarModelos();
-  atualizarImagens();
-  atualizarOperacoes();
-}
-
-// Atualizar modelos
-function atualizarModelos(){
-  const carro=document.getElementById('carro').value;
-  const modeloSelect=document.getElementById('modelo');
-  modeloSelect.innerHTML='';
-  modelosPorCarro[carro].forEach(m=>{
-    let opt=document.createElement('option'); opt.value=m; opt.text=m; modeloSelect.add(opt);
-  });
-  atualizarOperacoes();
-}
-
-// Atualizar imagens
-function atualizarImagens(){
-  const carro=document.getElementById('carro').value;
-  const modelo=document.getElementById('modelo').value;
-  const capa=document.getElementById('capa').value;
-  document.getElementById('imgCarro').src=carro+".png";
-  document.getElementById('imgCapa').src=carro+"-"+modelo+"-"+capa+".png";
-}
-
-// Atualizar operações
-function atualizarOperacoes(){
-  operacoesSelecionadas=[];
-  const carro=document.getElementById('carro').value;
-  const modelo=document.getElementById('modelo').value;
-  const capa=document.getElementById('capa').value;
-  const div=document.getElementById('operacoes');
-  div.innerHTML='';
-  const ops=operacoesTabela.filter(o=>o.carro===carro && o.modelo===modelo && o.capa===capa);
-  ops.forEach(op=>{
-    const d=document.createElement('div');
-    d.innerText=`${op.codigo} - ${op.processo} (${op.tempo}s)`;
-    d.dataset.tempo=op.tempo;
-    d.dataset.codigo=op.codigo;
-    d.onclick=()=>{d.classList.toggle('selected'); atualizarMeta();};
-    div.appendChild(d);
-  });
-  atualizarMeta();
-}
-
-// Atualizar tempo
-function atualizarMeta(){
-  operacoesSelecionadas=[];
-  document.querySelectorAll('#operacoes div.selected').forEach(d=>operacoesSelecionadas.push({codigo:d.dataset.codigo,tempo:parseInt(d.dataset.tempo)}));
-  const total=operacoesSelecionadas.reduce((sum,o)=>sum+o.tempo,0);
-  document.getElementById('tempoOperacoes').value=total;
-}
-
-// Registrar peça
-function registrarPeca(){
-  if(operacoesSelecionadas.length===0){alert("Selecione ao menos uma operação"); return;}
-  const linha=document.getElementById('linha').value;
-  const carro=document.getElementById('carro').value;
-  const modelo=document.getElementById('modelo').value;
-  const capa=document.getElementById('capa').value;
-  const ops=operacoesSelecionadas.map(o=>o.codigo).join(', ');
-  const meta=parseInt(document.getElementById('tempoOperacoes').value);
-  const hora=new Date();
-  let tempoReal=lastTime?Math.round((hora-lastTime)/1000):0;
-  lastTime=hora;
-  const eficiencia=(tempoReal>0)?((meta/tempoReal)*100).toFixed(1):0;
-  const registro={hora:hora.toLocaleTimeString(),usuario:currentUser,linha,carro,modelo,capa,operacoes:ops,meta,tempoReal,eficiencia};
-  let registros=JSON.parse(localStorage.getItem('registros'))||[];
-  registros.unshift(registro);
-  localStorage.setItem('registros',JSON.stringify(registros));
-  carregarTabela(currentPage);
-  atualizarGrafico();
-  atualizarEficienciaMedia();
-}
-
-// Limpar registros
-function limparRegistros(){
-  if(confirm("Deseja realmente limpar todos os registros?")){
-    localStorage.removeItem('registros');
-    carregarTabela(1);
-    atualizarGrafico();
-    atualizarEficienciaMedia();
-    lastTime=null;
-  }
-}
-
-// Eficiência média
-function atualizarEficienciaMedia(){
-  const registros=JSON.parse(localStorage.getItem('registros'))||[];
-  const ultimos=registros.filter(r=>r.tempoReal>0).slice(0,60);
-  if(ultimos.length===0){document.getElementById('eficienciaMedia').value=0; return;}
-  const soma=ultimos.reduce((sum,r)=>sum+parseFloat(r.eficiencia),0);
-  const media=(soma/ultimos.length).toFixed(1);
-  document.getElementById('eficienciaMedia').value=media;
-}
-
-// Carregar tabela
-function carregarTabela(page=1){
-  currentPage=page;
-  const tabela=document.getElementById('tabela');
-  tabela.innerHTML=`<tr><th>Hora</th><th>Usuário</th><th>Linha</th><th>Carro</th><th>Modelo</th><th>Capa</th><th>Operações</th><th>Meta (s)</th><th>Tempo Real (s)</th><th>Eficiência (%)</th></tr>`;
-  const registros=JSON.parse(localStorage.getItem('registros'))||[];
-  const totalPaginas=Math.ceil(registros.length/10);
-  const start=(page-1)*10;
-  const end=Math.min(start+10,registros.length);
-  registros.slice(start,end).forEach(r=>{
-    const row=tabela.insertRow();
-    row.insertCell(0).innerText=r.hora;
-    row.insertCell(1).innerText=r.usuario;
-    row.insertCell(2).innerText=r.linha;
-    row.insertCell(3).innerText=r.carro;
-    row.insertCell(4).innerText=r.modelo;
-    row.insertCell(5).innerText=r.capa;
-    row.insertCell(6).innerText=r.operacoes;
-    row.insertCell(7).innerText=r.meta;
-    row.insertCell(8).innerText=r.tempoReal;
-    row.insertCell(9).innerText=r.eficiencia;
-  });
-}
-
-// Gráfico
-let chart=null;
-function atualizarGrafico(){
-  const registros=JSON.parse(localStorage.getItem('registros'))||[];
-  const ultimos=registros.slice(0,30).reverse();
-  const labels=ultimos.map((r,i)=>i+1);
-  const data=ultimos.map(r=>parseFloat(r.eficiencia));
-  if(chart) chart.destroy();
-  const ctx=document.getElementById('eficienciaChart').getContext('2d');
-  chart=new Chart(ctx,{
-    type:'line',
-    data:{labels,datasets:[{label:'Eficiência %',data,borderColor:'#1976d2',backgroundColor:'rgba(25,118,210,0.2)',tension:0.3}]},
-    options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:true,max:150}}}
-  });
-}
-</script>
 </body>
 </html>
